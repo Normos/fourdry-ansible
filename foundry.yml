@@ -45,7 +45,7 @@
     # nginx and lets encrypt
     - name: Generate nginx config
       template:
-        src: templates/waystone.conf.j2
+        src: templates/nginx-site.conf.j2
         dest: /etc/nginx/sites-available/{{ hostname }}
     
     - name: Activate site
