@@ -60,7 +60,7 @@
         state: absent
 
     - name: Generate ssl certificates
-      command: "certbot certonly --nginx -d {{ hostname }} --non-interactive --agree-tos -m fleck.pascal@gmail.com"
+      command: "certbot certonly --nginx -d {{ hostname }} --non-interactive --agree-tos -m {{ email }}"
       tags: cert
 
     - name: Restart nginx
