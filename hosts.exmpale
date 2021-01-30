@@ -1,0 +1,6 @@
+[foundry]
+<your_ip
+
+[foundry:vars]
+ansible_user = root
+hostname = <your_domain_name>

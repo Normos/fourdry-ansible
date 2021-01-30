@@ -1,0 +1,73 @@
+- hosts: foundry
+  tasks:
+
+    # Packages
+    - name: Insert current node apt list
+      shell: "curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -"
+
+    - name: Install apt packages
+      apt:
+        name:
+          - nodejs
+          - libssl-dev
+          - nginx
+          - certbot
+          - python3-certbot-nginx
+        state: present
+
+    - name: Update package list and upgrade apt secure packages
+      apt:
+        update_cache: "yes"
+        upgrade: "yes"    
+
+    # Firewall configuration
+    - name: Allow ssh and http(s) ports
+      ufw:
+          rule: allow
+          port: '{{ item }}'
+      with_items:
+            - "22"
+            - "443"
+            - "80"
+      
+    - name: Disallow everything else
+      ufw:
+        state: enabled
+        policy: deny
+ 
+    # foundry vtt installation and setup
+    # Create foundry user
+    # Create foundry direcotry
+    # Create foundry data directory
+    # Updload and unzip foundry.zip
+    # Update config fire
+    # Start foundry service
+
+    # nginx and lets encrypt
+    - name: Generate nginx config
+      template:
+        src: templates/waystone.conf.j2
+        dest: /etc/nginx/sites-available/{{ hostname }}
+    
+    - name: Activate site
+      file:
+        src: /etc/nginx/sites-available/{{ hostname }}
+        dest: /etc/nginx/sites-enabled/{{ hostname }}
+        state: link
+
+    - name: Deactivate default Site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Generate ssl certificates
+      command: "certbot certonly --nginx -d {{ hostname }} --non-interactive --agree-tos -m fleck.pascal@gmail.com"
+      tags: cert
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    
+
