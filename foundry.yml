@@ -28,7 +28,6 @@
       with_items:
             - "22"
             - "443"
-            - "80"
       
     - name: Disallow everything else
       ufw:
