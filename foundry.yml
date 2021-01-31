@@ -48,7 +48,7 @@
         dest: "/opt/foundry/"
 
     - name: Start foundry service
-      shell: "node /opt/foundry/resources/app/main.js --dataPath=$HOME/foundrydata &"
+      shell: "node /opt/foundry/resources/app/main.js --dataPath=/opt/foundrydata &"
       tags: foundry-service-start
 
     # nginx and ssl
