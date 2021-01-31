@@ -30,5 +30,6 @@
 # Inventory Files
 hosts
 foundry_zips/*
+certs/*
 
 # End of https://www.toptal.com/developers/gitignore/api/ansible,git,visualstudiocode

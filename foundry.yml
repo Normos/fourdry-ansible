@@ -34,15 +34,38 @@
         state: enabled
         policy: deny
  
-    # foundry vtt installation and setup
-    # Create foundry user
-    # Create foundry direcotry
-    # Create foundry data directory
-    # Updload and unzip foundry.zip
-    # Update config fire
-    # Start foundry service
+    # Foundry vtt installation and setup
+    - name: Create foundry folders
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "/opt/foundry"
+        - "/opt/foundry-data"
+  
+    - name: Extract and upload zip
+      unarchive: 
+        src: "foundry_zips/foundryvtt.zip"
+        dest: "/opt/foundry/"
 
-    # nginx and lets encrypt
+    - name: Start foundry service
+      shell: "node /opt/foundry/resources/app/main.js --dataPath=$HOME/foundrydata &"
+      tags: foundry-service-start
+
+    # nginx and ssl
+    - name: Create Cert folder
+      file:
+        path: "/etc/certs"
+        state: directory
+
+    - name: Copy cert and key to server
+      copy:
+        src: "certs/{{ item }}.pem"
+        dest: "/etc/certs"
+      with_items:
+        - "key"
+        - "cert"
+
     - name: Generate nginx config
       template:
         src: templates/nginx-site.conf.j2
@@ -58,10 +81,6 @@
       file:
         path: /etc/nginx/sites-enabled/default
         state: absent
-
-    - name: Generate ssl certificates
-      command: "certbot certonly --nginx -d {{ hostname }} --non-interactive --agree-tos -m {{ email }}"
-      tags: cert
 
     - name: Restart nginx
       service:

@@ -5,8 +5,8 @@ server {
 
     # Listen on port 443 using SSL certificates
     listen                  443 ssl;
-    ssl_certificate         "/etc/letsencrypt/live/{{ hostname }}/fullchain.pem";
-    ssl_certificate_key     "/etc/letsencrypt/live/{{ hostname }}/privkey.pem";
+    ssl_certificate         "/etc/certs/cert.pem";
+    ssl_certificate_key     "/etc/certs/key.pem";
 
     # Sets the Max Upload size to 300 MB
     client_max_body_size 300M;
