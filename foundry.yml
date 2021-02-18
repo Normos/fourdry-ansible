@@ -44,7 +44,7 @@
   
     - name: Extract and upload zip
       unarchive: 
-        src: "foundry_zips/foundryvtt.zip"
+        src: "foundry_zip/foundryvtt.zip"
         dest: "/opt/foundry/"
 
     - name: Start foundry service

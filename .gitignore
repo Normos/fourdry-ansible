@@ -29,7 +29,8 @@
 
 # Inventory Files
 hosts
-foundry_zips/*
-certs/*
+foundry_zip/foundryvtt.zip
+certs/key.pem
+certs/cert.pem
 
 # End of https://www.toptal.com/developers/gitignore/api/ansible,git,visualstudiocode
